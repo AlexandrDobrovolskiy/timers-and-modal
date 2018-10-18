@@ -26,15 +26,12 @@ export default class Timer extends Component {
       const { timeLeft } = this.state;
       let computed = timeLeft - interval;
 
-      if (computed < 0) {
+      if (computed <= 0) {
         computed = 0;
-      }
-
-      if (computed === 0) {
         clearInterval(coutner);
         onTimeOut();
       }
-
+      
       this.setState({ timeLeft: computed });
     };
 
