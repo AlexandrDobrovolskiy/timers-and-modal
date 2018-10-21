@@ -1,9 +1,14 @@
 import React, { Component, Fragment } from "react";
-import Portal from "./Portal";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const CloseButton = ({ close }) => {
+import { Portal } from "utils";
+
+import { Card } from './Cards'
+import { AbsoluteContainer } from "./Containers";
+import { Button } from "./Buttons";
+
+const CloseActionButton = ({ close }) => {
   return <button onClick={close}>Close</button>;
 };
 
@@ -13,13 +18,13 @@ export default class Modal extends Component {
   };
 
   static propTypes = {
-		trigger: PropTypes.func.isRequired,
+    trigger: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     actions: PropTypes.func
   };
 
   static defaultProps = {
-    actions: CloseButton
+    actions: CloseActionButton
   };
 
   toggle = () => {
@@ -38,7 +43,12 @@ export default class Modal extends Component {
           <Portal>
             <ModalWrapper>
               <ModalContent>
-                <Header>{title}</Header>
+                <Header>
+                  {title}
+                  <CloseButton onClick={this.toggle}>
+                    <CloseImage src="./cancel-music.svg" alt="modal-close" />
+                  </CloseButton>
+                </Header>
                 {children}
                 <Footer>{actions({ close: this.toggle })}</Footer>
               </ModalContent>
@@ -51,26 +61,19 @@ export default class Modal extends Component {
   }
 }
 
-const ModalWrapper = styled.div`
-  position: absolute;
+const ModalWrapper = styled(AbsoluteContainer)`
   width: 100%;
   height: 100%;
-  left: 0;
-  top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const ModalContent = styled.div`
-  width: 55vw;
+const ModalContent = styled(Card)`
+  max-width: 600px;
   min-height: 45vh;
   background-color: #262830;
   position: relative;
-  -webkit-box-shadow: 0px 0px 32px -3px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 32px -3px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 32px -3px rgba(0, 0, 0, 0.75);
-  border-radius: 8px;
   color: #000000;
   z-index: 10;
   display: flex;
@@ -78,12 +81,9 @@ const ModalContent = styled.div`
   justify-content: space-between;
 `;
 
-const Background = styled.div`
-  position: absolute;
+const Background = styled(AbsoluteContainer)`
   width: 100%;
   height: 100%;
-  left: 0;
-  top: 0;
 `;
 
 const Header = styled.div`
@@ -91,9 +91,13 @@ const Header = styled.div`
   border-radius: 8px 8px 0 0;
   padding: 5px;
   color: white;
-	text-transform: uppercase;
-	font-size: 1.5rem;
-	font-weight: lighter;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: lighter;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 const Footer = styled.div`
@@ -103,4 +107,19 @@ const Footer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+`;
+
+const CloseButton = styled(Button)`
+  border-radius: 50%;
+  background-color: #e40c33;
+  color: white;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 24px;
+  width: 24px;
+`;
+
+const CloseImage = styled.img`
+  height: 100%;
+  width: 100%;
 `;

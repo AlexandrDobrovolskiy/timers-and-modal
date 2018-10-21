@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export default class Timer extends Component {
   state = {
-    timeLeft: 0
+    timeLeft: this.props.duration
   };
 
   static propTypes = {
@@ -14,8 +14,8 @@ export default class Timer extends Component {
   };
 
   static defaultProps = {
-    onTimeOut: () => {},
-    interval: 16 // 60 FPS
+    onTimeOut: _=> {},
+    interval: 16            //60 FPS
   };
 
   run = () => {
@@ -31,7 +31,7 @@ export default class Timer extends Component {
         clearInterval(coutner);
         onTimeOut();
       }
-      
+
       this.setState({ timeLeft: computed });
     };
 
