@@ -5,22 +5,25 @@ import { Button } from "elements";
 import { CircledImage } from "../elements";
 
 const images = [
-  {url: "./avatars/879012314-2048x2048.jpg"},
-  {url: "./avatars/822657060-2048x2048.jpg"},
-  {url: "./avatars/812419994-2048x2048.jpg"},
-  {url: "./avatars/844084632-2048x2048.jpg"},
-  {url: "./avatars/677059814-2048x2048.jpg"},
-  {url: "./avatars/689204952-2048x2048.jpg"},
-  {url: "./avatars/879012314-2048x2048.jpg"},
-  {url: "./avatars/822657060-2048x2048.jpg"},
+  {url: "./avatars/879012314-1024x1024.jpg"},
+  {url: "./avatars/822657060-1024x1024.jpg"},
+  {url: "./avatars/812419994-1024x1024.jpg"},
+  {url: "./avatars/844084632-1024x1024.jpg"},
+  {url: "./avatars/677059814-1024x1024.jpg"},
+  {url: "./avatars/689204952-1024x1024.jpg"},
+  {url: "./avatars/879012314-1024x1024.jpg"},
+  {url: "./avatars/822657060-1024x1024.jpg"}
 ]
+
+const getAvatar = () => JSON.parse(sessionStorage.getItem("avatar"));
 
 export default class Avatar extends Component {
   state = {
-    image: { url: "./avatars/677059814-2048x2048.jpg"}
+    image: getAvatar() || {url: "./avatars/879012314-1024x1024.jpg"}
   }
 
   onSelectAvatar = (image) => {
+    sessionStorage.setItem("avatar", JSON.stringify(image))
     this.setState({image})
   }
 

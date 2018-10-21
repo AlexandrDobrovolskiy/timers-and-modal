@@ -72,6 +72,7 @@ const SaveButton = styled(Button)`
   font-weight: bold;
   background-image: linear-gradient(#769f13, #498d12);
   border-radius: 40px;
+  border-bottom: 3px solid #234909;
   color: white;
 `;
 

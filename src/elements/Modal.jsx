@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { animated, Transition } from "react-spring";
 
 import { Portal } from "utils";
 
-import { Card } from './Cards'
-import { AbsoluteContainer } from "./Containers";
+import { Card } from "./Cards";
 import { Button } from "./Buttons";
+import { AbsoluteContainer } from "./Containers";
 
 const CloseActionButton = ({ close }) => {
   return <button onClick={close}>Close</button>;
@@ -41,19 +42,36 @@ export default class Modal extends Component {
         {trigger({ open: this.toggle })}
         {isOpened && (
           <Portal>
-            <ModalWrapper>
-              <ModalContent>
-                <Header>
-                  {title}
-                  <CloseButton onClick={this.toggle}>
-                    <CloseImage src="./cancel-music.svg" alt="modal-close" />
-                  </CloseButton>
-                </Header>
-                {children}
-                <Footer>{actions({ close: this.toggle })}</Footer>
-              </ModalContent>
-              <Background onClick={this.toggle} />
-            </ModalWrapper>
+            <Transition
+              native
+              from={{ opacity: 0, t: 100 }}
+              enter={{ opacity: 1, t: 0 }}
+              leave={{ opacity: 0, t: 100 }}
+            >
+              {({ opacity, t }) => (
+                <AnimatedModalWrapper
+                  style={{
+                    opacity: opacity.interpolate(o => o),
+                    transform: t.interpolate(t => `translateY(${t}px)`)
+                  }}
+                >
+                  <ModalContent>
+                    <Header>
+                      {title}
+                      <CloseButton onClick={this.toggle}>
+                        <CloseImage
+                          src="./cancel-music.svg"
+                          alt="modal-close"
+                        />
+                      </CloseButton>
+                    </Header>
+                    {children}
+                    <Footer>{actions({ close: this.toggle })}</Footer>
+                  </ModalContent>
+                  <Background onClick={this.toggle} />
+                </AnimatedModalWrapper>
+              )}
+            </Transition>
           </Portal>
         )}
       </Fragment>
@@ -68,6 +86,8 @@ const ModalWrapper = styled(AbsoluteContainer)`
   align-items: center;
   justify-content: center;
 `;
+
+const AnimatedModalWrapper = ModalWrapper.withComponent(animated.div);
 
 const ModalContent = styled(Card)`
   max-width: 600px;
